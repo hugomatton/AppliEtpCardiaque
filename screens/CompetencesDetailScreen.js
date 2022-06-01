@@ -107,7 +107,7 @@ function CompetenceDetailScreen({navigation, route}){
             />
             <View style={styles.buttonContainer}>
                 <Button 
-                    mode='flat' 
+                    fontSize={15}
                     style={{marginBottom: 40, marginTop: 10}} 
                     onPress={stateCompetenceHandler}
                 >

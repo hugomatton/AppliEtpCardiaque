@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native'
 import {GlobalStyles} from '../constants/styles'
 import Info from './Info'
 
-function ProgressBar({totalStep, step }){
+function ProgressBar({totalStep, step, accueil, pourcentage }){
     return(
         <View>
             <View style={styles.bar}>
@@ -12,12 +12,15 @@ function ProgressBar({totalStep, step }){
                     <View style={[styles.rest, {flex: totalStep - step}]}></View>
                 </View>
                 <View style={styles.containerScore}>
-                    <Text style={styles.score}>{((step/totalStep)*100).toFixed(0)}%</Text>
+                    <Text style={styles.score}>{pourcentage ? ((step/totalStep)*100).toFixed(0)+'%' : step + ' / ' + totalStep}</Text>
                 </View>
             </View>
-            <Info
+            {
+                accueil &&
+                <Info
                 over={totalStep/step === 1}
-            />
+                />
+            }
         </View>
     )
 }

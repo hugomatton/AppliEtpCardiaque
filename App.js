@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import CompetencesOverviewScreen from './screens/CompetencesOverviewScreen';
 import CompetenceDetailScreen from './screens/CompetencesDetailScreen';
+import QuizzScreen from './screens/QuizzScreen';
+
 import { GlobalStyles } from './constants/styles';
 import CompetencesContextProvider from './store/competences-context';
 
@@ -29,10 +31,18 @@ export default function App() {
               name="CompetenceDetail" 
               component={CompetenceDetailScreen}
               options={{
-                presentation: 'modal',
                 headerTintColor: GlobalStyles.colors.secondary,
                 headerStyle: {backgroundColor: GlobalStyles.colors.main}
                 
+              }}
+            />
+            <Stack.Screen
+              name='quizz'
+              component={QuizzScreen}
+              options={{
+                presentation: 'modal',
+                headerTintColor: GlobalStyles.colors.secondary,
+                headerStyle: {backgroundColor: GlobalStyles.colors.main}
               }}
             />
           </Stack.Navigator>

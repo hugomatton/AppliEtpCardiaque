@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         borderRadius: 8,
         backgroundColor: GlobalStyles.colors.secondary,
-        shadowColor: GlobalStyles.colors.gray500,
+        shadowColor: 'black',
         shadowRadius: 4,
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.4
