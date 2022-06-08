@@ -12,7 +12,11 @@ function ProgressBar({totalStep, step, accueil, pourcentage }){
                     <View style={[styles.rest, {flex: totalStep - step}]}></View>
                 </View>
                 <View style={styles.containerScore}>
-                    <Text style={styles.score}>{pourcentage ? ((step/totalStep)*100).toFixed(0)+'%' : step + ' / ' + totalStep}</Text>
+                    <Text style={styles.score}>
+                        {pourcentage ? 
+                            ((step/totalStep)*100).toFixed(0)+'%' : 
+                            step + ' / ' + totalStep}
+                    </Text>
                 </View>
             </View>
             {
@@ -45,6 +49,7 @@ const styles = StyleSheet.create({
     },
     progress: {
         height: 24,
+        borderRadius: 12,
         backgroundColor: GlobalStyles.colors.accent 
     },
     rest: {

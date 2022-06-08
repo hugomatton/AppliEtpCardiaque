@@ -8,7 +8,7 @@ import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { GlobalStyles } from '../constants/styles'
 import ProgressBar from '../components/ProgressBar'
 import { CompetencesContext } from '../store/competences-context'
-import QuizzButton from '../components/ui/QuizzButton'
+import Button from '../components/ui/Button'
 
 function CompetencesOverviewScreen({ navigation }) {
 
@@ -89,10 +89,18 @@ function CompetencesOverviewScreen({ navigation }) {
                     data={competences}
                     keyExtractor={(item) => item.title}
                     renderItem={renderCompetenceCard}
+                    alwaysBounceVertical={false}
                 />
             </View>
             <View style={styles.buttonQuizzContainer}>
-                <QuizzButton onPress={navigateToQuizz}>Testez vous</QuizzButton>
+                <Button 
+                    onPress={navigateToQuizz}
+                    bgColor='green'
+                    fontSize={20}
+                    color='white'
+                >
+                    Testez vous
+                </Button>
             </View>
         </View>
     )
@@ -110,11 +118,12 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     flatListContainer: {
-        flex: 4,
+        flex: 10,
     },
     buttonQuizzContainer: {
-        flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingBottom: 38,
+        paddingTop: 20,
     }
 })

@@ -1,4 +1,4 @@
-import {View, FlatList, StyleSheet} from 'react-native'
+import { View, FlatList, StyleSheet } from 'react-native'
 import { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -8,12 +8,12 @@ import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { GlobalStyles } from '../constants/styles'
 import IconButton from '../components/ui/IconButton'
 import Button from '../components/ui/Button'
-import {CompetencesContext} from '../store/competences-context'
+import { CompetencesContext } from '../store/competences-context'
 
-function CompetenceDetailScreen({navigation, route}){
+function CompetenceDetailScreen({ navigation, route }) {
 
     //la compétence que l'on souhaite afficher
-    const [competence, setCompetence] = useState({paragraphes: [], title: ''})
+    const [competence, setCompetence] = useState({ paragraphes: [], title: '' })
 
     //contexte des competences valides
     const competencesCtx = useContext(CompetencesContext)
@@ -29,11 +29,11 @@ function CompetenceDetailScreen({navigation, route}){
     /**
      * Affiche le header en prenant compte de la compétence sur laquelle on a cliqué
      */
-    useLayoutEffect(()=>{
+    useLayoutEffect(() => {
         navigation.setOptions({
             title: `Compétence : ${competenceTitle}`,
-            headerLeft: () =>{
-                return <IconButton icon="arrow-back" color="white" onPress={()=>{navigation.goBack()}}/>
+            headerLeft: () => {
+                return <IconButton icon="arrow-back" color="white" onPress={() => { navigation.goBack() }} />
             }
         })
     }, [])
@@ -41,30 +41,30 @@ function CompetenceDetailScreen({navigation, route}){
     /**
      * Charge la compétence en fonction de son id
      */
-    useEffect(()=>{
+    useEffect(() => {
         //chargement de la compétence
-        async function fetchCompetence(){
+        async function fetchCompetence() {
             setIsLoading(true)
             const competence = await fetchCompetenceById(competenceId)
             setIsLoading(false)
             setCompetence(competence)
         }
         fetchCompetence()
-    },[competenceId])
+    }, [competenceId])
 
     /**
      * Si la compétence est terminé cette fonction la passe à non terminé
      * Et si la compétence n'est pas terminée vice versa
      */
-    async function stateCompetenceHandler(){
+    async function stateCompetenceHandler() {
         //si compétence est terminée
-        if(competenceIsOver()){
+        if (competenceIsOver()) {
             //on la passe en non terminée
             await AsyncStorage.removeItem(competenceId)
             competencesCtx.deleteCompetence(competenceId)
         }
         //sinon
-        else{
+        else {
             await AsyncStorage.setItem(competenceId, competenceId)
             competencesCtx.addCompetence(competenceId)
         }
@@ -74,53 +74,55 @@ function CompetenceDetailScreen({navigation, route}){
     /**
      * Fonction rendant le composant paragraphe pour la flatlist
      */
-     function renderParagraphe(itemData){
+    function renderParagraphe(itemData) {
         const item = itemData.item
-            return(
-                <Paragraphe
-                    subtitle={item.subtitle}
-                    text={item.text}
-                    imageUrl={item.imageUrl}
-                />
-            )
-        
+        return (
+            <Paragraphe
+                subtitle={item.subtitle}
+                text={item.text}
+                imageUrl={item.imageUrl}
+            />
+        )
+
     }
 
     /**
      * Fonction permettant de savoir si la compétence est terminée
      */
-    function competenceIsOver(){
+    function competenceIsOver() {
         return competencesCtx.competences.indexOf(competenceId) !== -1
     }
 
     //si la compétence est en cour de chargement on retour le loading overlay
-    if(isLoading){
-        return <LoadingOverlay/>
+    if (isLoading) {
+        return <LoadingOverlay />
     }
 
-    return(
+    return (
         <View style={styles.rootContainer}>
-             <FlatList
+            <FlatList
+                style={{width: '100%'}}
                 data={competence.paragraphes}
-                keyExtractor={(item)=> item.subtitle}
+                keyExtractor={(item) => item.subtitle}
                 renderItem={renderParagraphe}
             />
             <View style={styles.buttonContainer}>
-                <Button 
-                    fontSize={15}
-                    style={{marginBottom: 40, marginTop: 10}} 
+                <Button
+                    bgColor='green'
+                    color='white'
+                    fontSize={16}
                     onPress={stateCompetenceHandler}
                 >
-                    {competenceIsOver() ? 
-                        "Indiquer que cette compétence n'est pas terminée" 
-                        : 
+                    {competenceIsOver() ?
+                        "Indiquer que cette compétence n'est pas terminée"
+                        :
                         "Indiquer que cette compétence est terminée"
                     }
                 </Button>
             </View>
         </View>
     )
-}   
+}
 
 
 export default CompetenceDetailScreen
@@ -132,6 +134,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: GlobalStyles.colors.secondary
     },
-    buttonContainer:{
+    buttonContainer: {
+        paddingBottom: 22,
+        paddingTop: 10
     }
 })
