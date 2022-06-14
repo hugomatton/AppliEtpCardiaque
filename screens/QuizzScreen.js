@@ -1,7 +1,7 @@
-import { FlatList, View, StyleSheet, Alert } from 'react-native'
+import { FlatList, View, StyleSheet, Alert, Dimensions } from 'react-native'
 import { useLayoutEffect, useEffect, useState } from 'react'
-import axios from 'axios'
 
+import { fetchQuestions } from '../util/http'
 import IconButton from '../components/ui/IconButton'
 import Question from '../components/Question'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
@@ -26,7 +26,7 @@ function QuizzScreen({ navigation }) {
     useEffect(() => {
         async function getQuestions() {
             setIsLoading(true)
-            const response = await axios.get('https://etpchu-default-rtdb.firebaseio.com/questions.json')
+            const response = await fetchQuestions()
             setIsLoading(false)
             const questionsTab = []
             for (let question in response.data) {
@@ -63,7 +63,6 @@ function QuizzScreen({ navigation }) {
             }
         }
         navigation.goBack()
-        console.log({nb_good_rep: nb_good_rep, nb_bad_rep: nb_bad_rep, errors: errors })
         navigation.navigate('quizzFeedBack', {nb_good_rep: nb_good_rep, nb_bad_rep: nb_bad_rep, errors: errors })
     }
 
@@ -88,7 +87,7 @@ function QuizzScreen({ navigation }) {
                     onPress={onSubmit}
                     color='white'
                     bgColor='green'
-                    fontSize={18}
+                    fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                 >
                     Valider
                 </Button>
@@ -121,11 +120,15 @@ function QuizzScreen({ navigation }) {
 
 export default QuizzScreen
 
+const deviceWidth = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
     main: {
         flex: 1,
-        padding: 24,
-        backgroundColor: GlobalStyles.colors.main
+        paddingVertical: 20,
+        paddingHorizontal: deviceWidth > 450 ? 120 : 24,
+        backgroundColor: GlobalStyles.colors.main,
+        justifyContent: 'flex-start'
     },
     buttonContainer:{
         flex: 1,

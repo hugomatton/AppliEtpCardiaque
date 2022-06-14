@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import { GlobalStyles } from "../constants/styles";
 
@@ -75,11 +75,13 @@ function Question({question, setReponses, reponses}){
 
 export default Question
 
+const deviceWidth = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
     main: {
-        marginVertical: 16,
+        marginVertical:  deviceWidth > 450 ? 32 : 16,
         backgroundColor: GlobalStyles.colors.secondary,
-        padding: 16,
+        padding: deviceWidth > 450 ? 32 : 16,
         borderRadius: 20,
         shadowColor: 'black',
         shadowRadius: 4,
@@ -92,13 +94,13 @@ const styles = StyleSheet.create({
     responseContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 8
+        marginVertical: deviceWidth > 450 ? 16 : 8
     },
     reponseText: {
-        fontSize: 18
+        fontSize: deviceWidth > 450 ? 28 : 18
     },
     questionText: {
-        fontSize: 20,
+        fontSize: deviceWidth > 450 ? 30 : 20,
         fontWeight: '500',
         textAlign: 'center',
         color: GlobalStyles.colors.main

@@ -1,7 +1,8 @@
-import {View, Pressable, Text, StyleSheet} from 'react-native'
+import {View, Pressable, Text, Dimensions, StyleSheet} from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 
 function CompetenceCard({title, onPress, isOver}){
+
     return(
         <View style={styles.outerContainer}>
             <Pressable 
@@ -29,10 +30,13 @@ function CompetenceCard({title, onPress, isOver}){
 
 export default CompetenceCard
 
+const deviceWidth = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
     outerContainer:{
         marginBottom: 20,
         borderRadius: 8,
+        overflow: 'hidden',
         backgroundColor: GlobalStyles.colors.secondary,
         shadowColor: 'black',
         shadowRadius: 4,
@@ -48,6 +52,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         height: 100,
         justifyContent: 'center',
+        flex: 12,
     },
     title: {
         fontSize: 32,
@@ -57,16 +62,20 @@ const styles = StyleSheet.create({
     },
     infoContainer:{
         paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: '50%',
-        marginRight: 20
+        paddingHorizontal: 10,
+        overflow: 'hidden',
+        borderRadius: 10,
+        marginRight: 20,
+        flex: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     info:{
         textTransform: 'uppercase',
         fontWeight: '700',
         color: GlobalStyles.colors.secondary,
-        width: 80,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: deviceWidth > 450 ? 22 : 16
     },
     pressed: {
         opacity: 0.75

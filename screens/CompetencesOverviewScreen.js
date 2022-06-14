@@ -1,4 +1,4 @@
-import { View, FlatList, StyleSheet, Text } from 'react-native'
+import { View, FlatList, StyleSheet, Dimensions } from 'react-native'
 import { useEffect, useState, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -96,7 +96,7 @@ function CompetencesOverviewScreen({ navigation }) {
                 <Button 
                     onPress={navigateToQuizz}
                     bgColor='green'
-                    fontSize={20}
+                    fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                     color='white'
                 >
                     Testez vous
@@ -108,10 +108,12 @@ function CompetencesOverviewScreen({ navigation }) {
 
 export default CompetencesOverviewScreen
 
+const deviceWidth = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        paddingHorizontal: 24,
+        paddingHorizontal: deviceWidth > 450 ? 100 : 24,
         backgroundColor: GlobalStyles.colors.main
     },
     progressBarContainer: {

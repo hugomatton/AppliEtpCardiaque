@@ -20,3 +20,8 @@ export async function fetchCompetenceById(competenceId){
     const response = await axios.get(`${BACKEND_URL}/competences/${competenceId}.json`)
     return response.data
 }
+
+export async function fetchQuestions(){
+    const response = await await axios.get(BACKEND_URL+'/questions.json')
+    return response
+}

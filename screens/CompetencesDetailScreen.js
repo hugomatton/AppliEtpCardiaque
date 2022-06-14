@@ -1,4 +1,4 @@
-import { View, FlatList, StyleSheet } from 'react-native'
+import { View, FlatList, StyleSheet, Dimensions } from 'react-native'
 import { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -31,7 +31,7 @@ function CompetenceDetailScreen({ navigation, route }) {
      */
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: `Compétence : ${competenceTitle}`,
+            title: competenceTitle,
             headerLeft: () => {
                 return <IconButton icon="arrow-back" color="white" onPress={() => { navigation.goBack() }} />
             }
@@ -103,14 +103,15 @@ function CompetenceDetailScreen({ navigation, route }) {
             <FlatList
                 style={{width: '100%'}}
                 data={competence.paragraphes}
-                keyExtractor={(item) => item.subtitle}
+                keyExtractor={(item) => item.id}
+                alwaysBounceVertical={false}
                 renderItem={renderParagraphe}
             />
             <View style={styles.buttonContainer}>
                 <Button
-                    bgColor='green'
-                    color='white'
-                    fontSize={16}
+                    bgColor={GlobalStyles.colors.main}
+                    color={GlobalStyles.colors.secondary}
+                    fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                     onPress={stateCompetenceHandler}
                 >
                     {competenceIsOver() ?
@@ -127,15 +128,20 @@ function CompetenceDetailScreen({ navigation, route }) {
 
 export default CompetenceDetailScreen
 
+
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: GlobalStyles.colors.secondary
+        backgroundColor: GlobalStyles.colors.main,
+        position: 'relative',
     },
     buttonContainer: {
         paddingBottom: 22,
-        paddingTop: 10
+        paddingTop: 10,
+        position: 'absolute',
+        zIndex: 2,
+        bottom: 10
     }
 })

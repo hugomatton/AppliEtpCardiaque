@@ -23,7 +23,7 @@ export default function App() {
               name="CompetencesOverview" 
               component={CompetencesOverviewScreen}
               options={{
-                title: "Notions",
+                title:'Bienvenue sur éducoeur',
                 headerTintColor: GlobalStyles.colors.secondary,
                 headerStyle: {backgroundColor: GlobalStyles.colors.main}
               }}
@@ -41,7 +41,7 @@ export default function App() {
               name='quizz'
               component={QuizzScreen}
               options={{
-                title: 'Quizz',
+                title: 'Quiz',
                 presentation: 'modal',
                 headerTintColor: GlobalStyles.colors.secondary,
                 headerStyle: {backgroundColor: GlobalStyles.colors.main}
