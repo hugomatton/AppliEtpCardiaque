@@ -1,7 +1,9 @@
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 
-function Paragraphe({ subtitle, text, imageUrl }) {
+import DisplayImage from './ui/DisplayImage'
+
+function Paragraphe({ subtitle, text, imageUrl, height, width }) {
     return (
         <View style={styles.paragraphe}>
             { !!subtitle &&
@@ -14,13 +16,12 @@ function Paragraphe({ subtitle, text, imageUrl }) {
                 <Text style={styles.text}>{text}</Text>
             }
             {
-                !!imageUrl &&
+                (!!imageUrl && !!height && !!width) &&
                 <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.image}
-                        source={{
-                            uri: imageUrl ? imageUrl : 'http://via.placeholder.com/640x360',
-                        }}
+                    <DisplayImage
+                        imageUrl={imageUrl}
+                        height={height}
+                        width={width}
                     />
                 </View>
             }
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: deviceWidth > 450 ? 40 : 27,
         fontWeight: '500',
-        color: GlobalStyles.colors.main
+        color: GlobalStyles.colors.accent
     },
     puce: {
         width: 16,
         height: 16,
         borderRadius: 8,
-        backgroundColor: GlobalStyles.colors.main,
+        backgroundColor: GlobalStyles.colors.accent,
         marginLeft: 20
     },
     titleContainer: {
@@ -67,8 +68,5 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 1,
     },
-    image: {
-        height: deviceWidth > 450 ? 500 : 300,
-        width: '100%',
-    }
+ 
 })

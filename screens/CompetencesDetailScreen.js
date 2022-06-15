@@ -1,4 +1,4 @@
-import { View, FlatList, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, FlatList, StyleSheet, Dimensions } from 'react-native'
 import { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -9,6 +9,7 @@ import { GlobalStyles } from '../constants/styles'
 import IconButton from '../components/ui/IconButton'
 import Button from '../components/ui/Button'
 import { CompetencesContext } from '../store/competences-context'
+import { NotionsContext } from '../store/notions-context'
 
 function CompetenceDetailScreen({ navigation, route }) {
 
@@ -18,8 +19,8 @@ function CompetenceDetailScreen({ navigation, route }) {
     //contexte des competences valides
     const competencesCtx = useContext(CompetencesContext)
 
-    //variable indiquant si la competence est en train de se charger
-    const [isLoading, setIsLoading] = useState(false)
+    //contexte des notions de l'application
+    const notionsCtx = useContext(NotionsContext)
 
     //récupère le titre de la compétence sur laquelle on a cliqué 
     const competenceTitle = route.params.competenceTitle
@@ -42,12 +43,9 @@ function CompetenceDetailScreen({ navigation, route }) {
      * Charge la compétence en fonction de son id
      */
     useEffect(() => {
-        //chargement de la compétence
+        //chargement de la compétence à l'aide du contexte
         async function fetchCompetence() {
-            setIsLoading(true)
-            const competence = await fetchCompetenceById(competenceId)
-            setIsLoading(false)
-            setCompetence(competence)
+            setCompetence(notionsCtx.notions.filter((notion)=>notion.id === competenceId)[0])
         }
         fetchCompetence()
     }, [competenceId])
@@ -75,15 +73,24 @@ function CompetenceDetailScreen({ navigation, route }) {
      * Fonction rendant le composant paragraphe pour la flatlist
      */
     function renderParagraphe(itemData) {
-        const item = itemData.item
+        const item = itemData.item //Le paragraphe
         return (
             <Paragraphe
-                subtitle={item.subtitle}
-                text={item.text}
-                imageUrl={item.imageUrl}
+                {...item}
             />
         )
 
+    }
+
+    /**
+     * Fonction rendant le Footer de la Flatlist pour que le bouton du bas ne cache pas la dernière image
+     */
+    function renderFooterComponent(){
+        return(
+            <View style={{ height: 130 }}>
+
+            </View>
+        )
     }
 
     /**
@@ -91,11 +98,6 @@ function CompetenceDetailScreen({ navigation, route }) {
      */
     function competenceIsOver() {
         return competencesCtx.competences.indexOf(competenceId) !== -1
-    }
-
-    //si la compétence est en cour de chargement on retour le loading overlay
-    if (isLoading) {
-        return <LoadingOverlay />
     }
 
     return (
@@ -106,10 +108,11 @@ function CompetenceDetailScreen({ navigation, route }) {
                 keyExtractor={(item) => item.id}
                 alwaysBounceVertical={false}
                 renderItem={renderParagraphe}
+                ListFooterComponent={renderFooterComponent}
             />
             <View style={styles.buttonContainer}>
                 <Button
-                    bgColor={GlobalStyles.colors.main}
+                    bgColor={GlobalStyles.colors.accent}
                     color={GlobalStyles.colors.secondary}
                     fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                     onPress={stateCompetenceHandler}

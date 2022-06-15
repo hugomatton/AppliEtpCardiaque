@@ -1,3 +1,9 @@
+/*
+    Ce contexte contient les ids des notions qui ont été lues et validées par l'utilisateur
+    Une notion validée devient une compétence
+*/
+
+
 import { createContext, useReducer } from "react";
 
 export const CompetencesContext = createContext({

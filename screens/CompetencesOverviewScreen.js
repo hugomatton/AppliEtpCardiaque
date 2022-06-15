@@ -5,11 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import CompetenceCard from '../components/CompetenceCard'
 import { fetchCompetences } from '../util/http'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
-import { GlobalStyles } from '../constants/styles'
 import ProgressBar from '../components/ProgressBar'
-import { CompetencesContext } from '../store/competences-context'
 import Button from '../components/ui/Button'
 import Info from '../components/Info'
+import { NotionsContext } from '../store/notions-context'
+import { CompetencesContext } from '../store/competences-context'
+import { GlobalStyles } from '../constants/styles'
 
 function CompetencesOverviewScreen({ navigation }) {
 
@@ -19,6 +20,9 @@ function CompetencesOverviewScreen({ navigation }) {
     //le contexte contenant les compétences valides
     const competencesCtx = useContext(CompetencesContext)
 
+    //le contexte contenant les notions présentes dans l'application
+    const notionsCtx = useContext(NotionsContext)
+
     //Variable indiquant si la liste des compétences est en train de charger
     const [isLoading, setIsLoading] = useState(false)
 
@@ -27,7 +31,9 @@ function CompetencesOverviewScreen({ navigation }) {
      * Initilise le context des compétences validés
      */
     useEffect(() => {
-        //Initialisation de la liste des compétences
+        /**
+         * Fonction permettant de récupérer les compétences grace à une requete http
+         */
         async function getCompetences() {
             setIsLoading(true)
             const competencesList = await fetchCompetences()
@@ -35,7 +41,9 @@ function CompetencesOverviewScreen({ navigation }) {
             setCompetences(competencesList)
         }
         getCompetences()
-        //Initialisation du contexte
+        /*
+         * Fonction permettant l'nitialisation du contexte compétences
+         */
         async function getCompetencesOver() {
             //on récupère l'id des compétences qui sont validées
             const competenceValides = await AsyncStorage.getAllKeys()
@@ -43,6 +51,13 @@ function CompetencesOverviewScreen({ navigation }) {
             competencesCtx.setCompetences(competenceValides)
         }
         getCompetencesOver()
+        /**
+         * Fonction permettant l'initialisation du contexte notions
+         */
+        function setNotionsCtx(){
+            notionsCtx.setNotions(competences)
+        }
+        setNotionsCtx()
     }, [])
 
 
@@ -69,20 +84,20 @@ function CompetencesOverviewScreen({ navigation }) {
     /**
      * Retourne le nombre de compétences valides
      */
-    function nbCompetencesValides(){
+    function nbCompetencesValides() {
         let compteur = 0
         //On parcours les compétences reçues grace à la requete HTTP
-        for (let c of competences){
+        for (let c of competences) {
             //On regarde si ces compétences ont leur id enregistré dans le localstorage
-            if(competencesCtx.competences.indexOf(c.id) !== -1){
+            if (competencesCtx.competences.indexOf(c.id) !== -1) {
                 //Si oui --> compétence validée
                 compteur++
             }
         }
         return compteur
-    } 
+    }
 
-    function navigateToQuizz(){
+    function navigateToQuizz() {
         navigation.navigate('quizz')
     }
 
@@ -97,14 +112,14 @@ function CompetencesOverviewScreen({ navigation }) {
                 <ProgressBar
                     accueil
                     pourcentage
-                    step={nbCompetencesValides()} 
+                    step={nbCompetencesValides()}
                     totalStep={competences.length}
                 />
                 <Info
-                    over={competences.length/nbCompetencesValides() === 1}
+                    over={competences.length / nbCompetencesValides() === 1}
                 />
             </View>
-            <View                     
+            <View
                 style={styles.flatListContainer}
             >
                 <FlatList
@@ -115,9 +130,11 @@ function CompetencesOverviewScreen({ navigation }) {
                 />
             </View>
             <View style={styles.buttonQuizzContainer}>
-                <Button 
+                <Button
+                    style={styles.button}
                     onPress={navigateToQuizz}
-                    bgColor='green'
+                    //onPress={()=>{console.log(notionsCtx.notions)}}
+                    bgColor={GlobalStyles.colors.accent}
                     fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                     color='white'
                 >
@@ -145,9 +162,12 @@ const styles = StyleSheet.create({
         flex: 10,
     },
     buttonQuizzContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingBottom: 38,
-        paddingTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: 30
+    },
+    button: {
+        flex: 1
     }
 })

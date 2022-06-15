@@ -42,7 +42,7 @@ function FeedBackQuizzScreen({ route, navigation }) {
             </View>
             <View style={styles.buttonsContainer}>
                 <Button
-                    bgColor={GlobalStyles.colors.main}
+                    bgColor={GlobalStyles.colors.accent}
                     color='white'
                     fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                     style={[styles.button, { marginLeft: 10 }]}

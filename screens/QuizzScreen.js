@@ -84,12 +84,13 @@ function QuizzScreen({ navigation }) {
         return(
             <View style={styles.buttonContainer}>
                 <Button 
+                    style={styles.button}
                     onPress={onSubmit}
-                    color='white'
-                    bgColor='green'
+                    color={GlobalStyles.colors.secondary}
+                    bgColor={GlobalStyles.colors.accent}
                     fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
                 >
-                    Valider
+                    J'ai terminé
                 </Button>
             </View>
         )
@@ -131,9 +132,12 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     buttonContainer:{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: 30
+    },
+    button: {
+        flex: 1
     }
 })
