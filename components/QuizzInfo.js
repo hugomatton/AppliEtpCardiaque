@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     image:{
-        marginTop: 50,
-        height: 200,
+        marginTop: deviceWidth > 450 ? 100 : 50,
+        height: deviceWidth > 450 ? 400 : 200,
         width: 'auto'
     }
    

@@ -1,46 +1,41 @@
-import {View, Text, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 
-import {GlobalStyles} from '../constants/styles'
-import Info from './Info'
+import { GlobalStyles } from '../constants/styles'
 
-function ProgressBar({totalStep, step, accueil, pourcentage }){
-    return(
+function ProgressBar({ totalStep, step, pourcentage }) {
+    return (
         <View>
             <View style={styles.bar}>
                 <View style={styles.containerProgressBar}>
-                    <View style={[styles.progress, {flex: step}]} ></View>
-                    <View style={[styles.rest, {flex: totalStep - step}]}></View>
+                    <View style={[styles.progress, { flex: step }]} ></View>
+                    <View style={[styles.rest, { flex: totalStep - step }]}></View>
                 </View>
                 <View style={styles.containerScore}>
                     <Text style={styles.score}>
-                        {pourcentage ? 
-                            ((step/totalStep)*100).toFixed(0)+'%' : 
+                        {pourcentage ?
+                            ((step / totalStep) * 100).toFixed(0) + '%' :
                             step + ' / ' + totalStep}
                     </Text>
                 </View>
             </View>
-            {
-                accueil &&
-                <Info
-                over={totalStep/step === 1}
-                />
-            }
         </View>
     )
 }
 
 export default ProgressBar
 
+const deviceWidth = Dimensions.get('window').width
+
 const styles = StyleSheet.create({
     bar: {
-        height: 24,
+        height: deviceWidth > 450 ? 36 : 24,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10
     },
     containerProgressBar: {
         backgroundColor: 'white',
-        borderRadius: 12,
+        borderRadius: deviceWidth > 450 ? 16 : 12,
         flexDirection: 'row',
         overflow: 'hidden',
         flex: 4,
@@ -48,21 +43,23 @@ const styles = StyleSheet.create({
         borderWidth: 0.5
     },
     progress: {
-        height: 24,
-        borderRadius: 12,
-        backgroundColor: GlobalStyles.colors.accent 
+        height: deviceWidth > 450 ? 36 : 24,
+        borderRadius: deviceWidth > 450 ? 16 : 12,
+        backgroundColor: GlobalStyles.colors.accent
     },
     rest: {
-        height: 24,
+        height: deviceWidth > 450 ? 36 : 24,
         backgroundColor: GlobalStyles.colors.secondary
     },
-    containerScore:{
+    containerScore: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     score: {
         color: GlobalStyles.colors.secondary,
-        fontSize: 18,
-        fontWeight: '600'
-    }
+        fontSize: deviceWidth > 450 ? 28 : 18,
+        fontWeight: '600',
+    },
+
 })

@@ -9,6 +9,7 @@ import { GlobalStyles } from '../constants/styles'
 import ProgressBar from '../components/ProgressBar'
 import { CompetencesContext } from '../store/competences-context'
 import Button from '../components/ui/Button'
+import Info from '../components/Info'
 
 function CompetencesOverviewScreen({ navigation }) {
 
@@ -36,7 +37,9 @@ function CompetencesOverviewScreen({ navigation }) {
         getCompetences()
         //Initialisation du contexte
         async function getCompetencesOver() {
+            //on récupère l'id des compétences qui sont validées
             const competenceValides = await AsyncStorage.getAllKeys()
+            //On les mets dans le contexte
             competencesCtx.setCompetences(competenceValides)
         }
         getCompetencesOver()
@@ -44,7 +47,7 @@ function CompetencesOverviewScreen({ navigation }) {
 
 
     /**
-     * Retourne un composant CompetenceCard pour la faltlist
+     * Retourne un composant CompetenceCard pour la flatlist
      */
     function renderCompetenceCard(itemData) {
         //données que l'on passe au composant
@@ -58,10 +61,26 @@ function CompetencesOverviewScreen({ navigation }) {
             <CompetenceCard
                 onPress={pressHandler}
                 title={title}
-                isOver={competencesCtx.competences.indexOf(id) !== -1}
+                isOver={competencesCtx.competences.indexOf(id) !== -1} //on regarde si l'id de la compétence se trouve dans le contexte --> Si oui la compétence est validée
             />
         )
     }
+
+    /**
+     * Retourne le nombre de compétences valides
+     */
+    function nbCompetencesValides(){
+        let compteur = 0
+        //On parcours les compétences reçues grace à la requete HTTP
+        for (let c of competences){
+            //On regarde si ces compétences ont leur id enregistré dans le localstorage
+            if(competencesCtx.competences.indexOf(c.id) !== -1){
+                //Si oui --> compétence validée
+                compteur++
+            }
+        }
+        return compteur
+    } 
 
     function navigateToQuizz(){
         navigation.navigate('quizz')
@@ -78,8 +97,11 @@ function CompetencesOverviewScreen({ navigation }) {
                 <ProgressBar
                     accueil
                     pourcentage
-                    step={competencesCtx.competences.length} //bug avec asyncstorage qui conserve compétence supprimée
+                    step={nbCompetencesValides()} 
                     totalStep={competences.length}
+                />
+                <Info
+                    over={competences.length/nbCompetencesValides() === 1}
                 />
             </View>
             <View                     
