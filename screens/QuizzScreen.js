@@ -110,6 +110,7 @@ function QuizzScreen({ navigation }) {
                 pourcentage={false}
             />
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={questions}
                 keyExtractor={(item) => item.id}
                 renderItem={renderQuestion}

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import QuizzInfo from '../components/QuizzInfo'
 import Button from '../components/ui/Button'
+import CardStat from '../components/CardStat'
 
 function FeedBackQuizzScreen({ route, navigation }) {
 
@@ -12,32 +13,14 @@ function FeedBackQuizzScreen({ route, navigation }) {
 
     return (
         <View style={styles.main}>
-            <View>
+            <View style={styles.titleContainer}>
                 <Text style={styles.title}>Compte rendu du Quiz</Text>
-                <View style={[styles.infoContainer, styles.colorGoodRep]}>
-                    <View style={styles.numberContainer}>
-                        <Text style={[styles.textInfo, { color: 'green' }]}>
-                            {nb_good_rep}
-                        </Text>
-                    </View>
-                    <Text
-                        style={[styles.textInfo]}
-                    >
-                        {nb_good_rep > 1 ? 'Bonnes réponses' : 'Bonne réponse'}
-                    </Text>
-                </View>
-                <View style={[styles.infoContainer, styles.colorBadRep]}>
-                    <View style={styles.numberContainer}>
-                        <Text style={[styles.textInfo, { color: 'orange' }]}>
-                            {nb_bad_rep}
-                        </Text>
-                    </View>
-                    <Text
-                        style={[styles.textInfo]}
-                    >
-                        {nb_bad_rep > 1 ? 'Mauvaises réponses' : 'Mauvaise réponse'}
-                    </Text>
-                </View>
+            </View>
+            <View style={styles.cardStatContainer}>
+                <CardStat nb={nb_good_rep} goodRep>{nb_good_rep > 1 ? 'Bonnes réponses' : 'Bonne réponse'}</CardStat>
+                <CardStat nb={nb_bad_rep}>{nb_bad_rep > 1 ? 'Mauvaises réponses' : 'Mauvaise réponse'}</CardStat>
+            </View>
+            <View style={styles.quizzInfoContainer}>
                 <QuizzInfo errors={errors} />
             </View>
             <View style={styles.buttonsContainer}>
@@ -45,7 +28,7 @@ function FeedBackQuizzScreen({ route, navigation }) {
                     bgColor={GlobalStyles.colors.accent}
                     color='white'
                     fontSize={Dimensions.get('window').width > 450 ? 25 : 18}
-                    style={[styles.button, { marginLeft: 10 }]}
+                    style={styles.button}
                     onPress={() => { navigation.goBack() }}
                 >
                     Continuer
@@ -64,55 +47,29 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: GlobalStyles.colors.main,
         paddingTop: 60,
-        paddingBottom: 30,
         paddingHorizontal: deviceWidth > 450 ? 120 : 24,
-        justifyContent: 'space-between'
+    },
+    titleContainer:{
+        flex: 1,
+        justifyContent: 'center'
     },
     title: {
         color: GlobalStyles.colors.secondary,
         fontSize: 30,
         fontWeight: '500',
         textAlign: 'center',
-        marginBottom: 25
     },
-    infoContainer: {
-        padding: 20,
-        marginBottom: 20,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        shadowColor: 'black',
-        shadowRadius: 4,
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4
+    cardStatContainer: {
+        flex: 3,
+        justifyContent: 'space-around'
     },
-    colorGoodRep: {
-        backgroundColor: 'green',
-    },
-    colorBadRep: {
-        backgroundColor: 'orange'
-    },
-    numberContainer: {
-        backgroundColor: GlobalStyles.colors.secondary,
-        width: deviceWidth > 450 ? 46 : 36,
-        height: deviceWidth > 450 ? 46 : 36,
-        borderRadius:deviceWidth > 450 ? 23 : 18,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    textInfo: {
-        fontSize: deviceWidth > 450 ? 30 : 20,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        color: GlobalStyles.colors.secondary
+    quizzInfoContainer: {
+        flex: deviceWidth > 450 ? 10 : 7,
+        justifyContent: 'center',
     },
     buttonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 10,
-        marginBottom: 30
+        flex: 1,
+        justifyContent: 'center',
     },
     button: {
         flex: 1,

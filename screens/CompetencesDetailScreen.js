@@ -118,9 +118,9 @@ function CompetenceDetailScreen({ navigation, route }) {
                     onPress={stateCompetenceHandler}
                 >
                     {competenceIsOver() ?
-                        "Indiquer que cette compétence n'est pas terminée"
+                        "Indiquer que cette notion n'est pas terminée"
                         :
-                        "Indiquer que cette compétence est terminée"
+                        "Indiquer que cette notion est terminée"
                     }
                 </Button>
             </View>

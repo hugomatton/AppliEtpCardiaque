@@ -97,10 +97,10 @@ const styles = StyleSheet.create({
         marginVertical: deviceWidth > 450 ? 16 : 8
     },
     reponseText: {
-        fontSize: deviceWidth > 450 ? 28 : 18
+        fontSize: deviceWidth > 450 ? 30 : 22,
     },
     questionText: {
-        fontSize: deviceWidth > 450 ? 30 : 20,
+        fontSize: deviceWidth > 450 ? 40 : 27,
         fontWeight: '500',
         textAlign: 'center',
         color: GlobalStyles.colors.main

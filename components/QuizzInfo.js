@@ -15,15 +15,14 @@ function QuizzInfo({ errors }) {
     }
 
     let content = (
-        <View>
-            <Text style={styles.title}>Vous vous êtes trompé sur les questions suivantes</Text>
             <FlatList
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={()=><Text style={styles.title}>Vous vous êtes trompé sur les questions suivantes</Text>}
                 data={errors}
                 keyExtractor={(error) => error.id}
                 renderItem={renderError}
                 alwaysBounceVertical={false}
             />
-        </View>
     )
 
     if (errors.length === 0) {
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        marginTop: 30,
         color: GlobalStyles.colors.secondary,
         fontSize: deviceWidth > 450 ? 30 : 20,
         fontWeight: '400',

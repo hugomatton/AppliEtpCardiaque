@@ -32,13 +32,14 @@ function CompetencesOverviewScreen({ navigation }) {
      */
     useEffect(() => {
         /**
-         * Fonction permettant de récupérer les compétences grace à une requete http
+         * Fonction permettant de récupérer les compétences grace à une requete http et d'initialiser le contexte des notions
          */
         async function getCompetences() {
             setIsLoading(true)
             const competencesList = await fetchCompetences()
             setIsLoading(false)
             setCompetences(competencesList)
+            notionsCtx.setNotions(competencesList)
         }
         getCompetences()
         /*
@@ -51,13 +52,6 @@ function CompetencesOverviewScreen({ navigation }) {
             competencesCtx.setCompetences(competenceValides)
         }
         getCompetencesOver()
-        /**
-         * Fonction permettant l'initialisation du contexte notions
-         */
-        function setNotionsCtx(){
-            notionsCtx.setNotions(competences)
-        }
-        setNotionsCtx()
     }, [])
 
 
@@ -123,6 +117,7 @@ function CompetencesOverviewScreen({ navigation }) {
                 style={styles.flatListContainer}
             >
                 <FlatList
+                    showsVerticalScrollIndicator={false}
                     data={competences}
                     keyExtractor={(item) => item.title}
                     renderItem={renderCompetenceCard}
